@@ -1,10 +1,782 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khung Bố Cục Giao Diện YouTube</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    /* Basic setup */
+    body {
+      background-color: #F5F5F5;
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Top bar */
+    .top-bar {
+      background-color: #FFFFFF;
+      border-bottom: 1px solid #E0E0E0;
+      height: 56px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #FFFFFF;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      bottom: 0;
+      z-index: 999;
+      transition: left 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .sidebar.hidden {
+      left: -240px;
+    }
+
+    .sidebar .nav-link {
+      color: #030303;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: #F0F0F0;
+    }
+
+    .sidebar .nav-link i {
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-top: 56px;
+      margin-left: 240px;
+      padding: 16px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .main-content.hidden {
+      margin-left: 0;
+    }
+
+    /* Search bar */
+    .search-bar {
+      max-width: 600px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      border: 1px solid #CCCCCC;
+      border-radius: 20px;
+      background: #FFFFFF;
+    }
+
+    .search-bar .form-control {
+      border: none;
+      border-radius: 20px 0 0 20px;
+      padding-right: 0;
+      flex: 1;
+    }
+
+    .search-bar .form-control:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    .search-bar .search-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 38px;
+      color: #606060;
+      cursor: pointer;
+      background-color: #F0F0F0;
+      border-radius: 0 20px 20px 0;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-bar .search-icon:hover {
+      background-color: #E0E0E0;
+    }
+
+    /* Top bar buttons */
+    .top-bar .btn {
+      border-radius: 20px;
+      font-size: 14px;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    .top-bar .btn-login {
+      background-color: #065FD4;
+      color: #FFFFFF;
+    }
+
+    .top-bar .btn-login:hover {
+      background-color: #003087;
+    }
+
+    /* Video placeholders */
+    .video-placeholder {
+      background-color: #E0E0E0;
+      height: 135px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .video-info-placeholder {
+      height: 40px;
+      background-color: #E0E0E0;
+      border-radius: 4px;
+    }
+
+    /* Custom modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      padding: 2px;
+      width: 820px;
+      height: 440px;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #606060;
+    }
+
+    /* Custom styles for the login modal content */
+    .login-section {
+      display: flex;
+      flex-wrap: nowrap;
+      padding: 30px 40px;
+      height: 100%;
+      align-items: flex-start;
+    }
+
+    .qr-section {
+      flex: 2;
+      min-width: 200px;
+      border-right: 1px solid #E0E0E0;
+      padding: 0 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .qr-section h2 {
+      margin-top: 0;
+      height: 36px;
+      line-height: 36px;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-section {
+      width: 408px; /* Kích thước cố định bằng 50% của modal-content (820px / 2) */
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 0 20px;
+    }
+
+    .form-section .row-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100px; /* Chiều cao cố định cho row */
+      margin-top: auto; /* Đẩy row xuống dưới */
+    }
+
+    .form-section .col-70 {
+      width: 70%; /* 70% chiều rộng của row-container */
+      background-color: #f0f0f0; /* Để dễ phân biệt */
+    }
+
+    .form-section .col-30 {
+      width: 30%; /* 30% chiều rộng của row-container */
+      background-color: #e0e0e0; /* Để dễ phân biệt */
+    }
+
+    .form-section .login-tabs {
+      height: 36px;
+      align-items: center;
+      margin-top: 0;
+    }
+
+    .form-section .input-container {
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .form-section .input-row {
+      margin-bottom: 0;
+      padding: 8px 12px;
+      display: flex;
+      align-items: stretch;
+      min-height: 40px;
+    }
+
+    .form-section .input-row:not(:last-child) {
+      border-bottom: 1px solid #CCCCCC;
+    }
+
+    .form-section .input-row .col-3,
+    .form-section .input-row .col-9 {
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+
+    .form-section .form-label {
+      font-size: 14px;
+      color: #030303;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+
+    .form-section .form-control {
+      border: none;
+      padding-right: 20px;
+      font-size: 14px;
+      background: transparent;
+      height: 100%;
+      width: 100%;
+      border-radius: 0;
+    }
+
+    .form-section .form-control:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    .form-section .eye-btn {
+      cursor: pointer;
+      color: #00a1d6;
+      margin-left: 4px;
+      margin-right: 10px;
+    }
+
+    .form-section .forgot-password {
+      display: block;
+      text-align: right;
+      margin-bottom: 16px;
+      font-size: 14px;
+      position: relative;
+      color: #00a1d6;
+      text-decoration: none;
+    }
+
+    .form-section .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .form-section .forget-tip {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      width: 250px;
+      padding: 10px;
+    }
+
+    .form-section .forget-tip .arrow {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      width: 20px;
+      height: 10px;
+    }
+
+    .form-section .forget-tip-line {
+      padding: 5px 0;
+      cursor: pointer;
+    }
+
+    .form-section .forget-tip-line:hover {
+      background-color: #F0F0F0;
+    }
+
+    .form-section .forget-tip-line .title {
+      font-size: 14px;
+      color: #030303;
+      margin: 0;
+    }
+
+    .form-section .forget-tip-line .desc {
+      font-size: 12px;
+      color: #606060;
+      margin: 0;
+    }
+
+    .form-section .btn-primary {
+      background-color: #065FD4;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .form-section .btn-primary:hover {
+      background-color: #003087;
+    }
+
+    .form-section .btn-outline-secondary {
+      border: 1px solid #B0E0E6;
+      color: #065FD4;
+      background-color: #E6F0FA;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .form-section .btn-outline-secondary:hover {
+      background-color: #D1E9FF;
+    }
+
+    .social-login-btn {
+      font-size: 24px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .text-sm {
+      font-size: 12px;
+    }
+
+    .login-tabs .btn-link {
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .login-tabs .btn-link.active {
+      border-bottom: 2px solid #065FD4;
+      color: #065FD4;
+    }
+
+    .login-tabs .btn-link:not(.active) {
+      color: #606060;
+    }
+
+    .login-tabs .btn-link + .btn-link {
+      margin-left: 30px;
+    }
+
+    /* Ẩn/hiện form */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .otp-row .form-control {
+      flex: 1;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 14px;
+      height: 34px;
+    }
+
+    .otp-row .btn-otp {
+      background-color: #00a1d6;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 14px;
+      height: 34px;
+    }
+
+    .otp-row .btn-otp:hover {
+      background-color: #007a99;
+    }
+  </style>
 </head>
 <body>
-$END$
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="btn me-2" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="me-3">
+    <img src="https://via.placeholder.com/90x40" alt="Logo" style="height: 40px;">
+  </div>
+  <div class="search-bar mx-auto">
+    <input type="text" class="form-control" placeholder="Tìm kiếm">
+    <span class="search-icon">
+      <i class="fas fa-search"></i>
+    </span>
+  </div>
+  <div class="ms-auto d-flex align-items-center gap-2">
+    <button class="btn d-flex align-items-center gap-1">
+      <i class="fas fa-plus"></i>
+      <span>Tạo</span>
+    </button>
+    <button class="btn btn-login" id="loginBtn">
+      Đăng nhập
+    </button>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-home"></i>
+        Trang chủ
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-video"></i>
+        Shorts
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-list"></i>
+        Kênh đăng ký
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-heart"></i>
+        Yêu thích
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-thumbs-up"></i>
+        Đã thích
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-clock"></i>
+        Xem sau
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-film"></i>
+        Phim
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-paint-brush"></i>
+        Hoạt hình
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-music"></i>
+        Âm nhạc
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- Main content -->
+<div class="main-content" id="mainContent">
+  <div class="container-fluid">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <div class="col">
+        <div class="video-placeholder"></div>
+        <div class="video-info-placeholder"></div>
+      </div>
+      <div class="col">
+        <div class="video-placeholder"></div>
+        <div class="video-info-placeholder"></div>
+      </div>
+      <div class="col">
+        <div class="video-placeholder"></div>
+        <div class="video-info-placeholder"></div>
+      </div>
+      <div class="col">
+        <div class="video-placeholder"></div>
+        <div class="video-info-placeholder"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom login modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <button class="modal-close" id="closeModal">×</button>
+    <div class="login-section">
+      <!-- QR Code Section -->
+      <div class="qr-section">
+        <h2 class="h6 mb-3">Quét mã QR để đăng nhập</h2>
+        <img alt="QR Code" class="mb-3" height="150" src="https://storage.googleapis.com/a1aa/image/W8ie3o9RT-fzHAfiktJ8NPVGaJdt7wbxXp5_p9YnBO8.jpg" width="150"/>
+        <p class="text-muted mb-2">Mã QR đã hết hạn</p>
+        <button class="btn btn-link text-primary p-0">Vui lòng nhấp vào Làm mới</button>
+        <p class="text-muted">Quét mã QR để đăng nhập hoặc quét mã QR để tải xuống APP</p>
+      </div>
+
+      <!-- Login Form Section -->
+      <div class="form-section">
+        <div class="d-flex mb-3 login-tabs">
+          <span class="btn-link text-primary border-bottom border-2 border-primary pb-2 active" onclick="showTab('login')">Đăng nhập</span>
+          <span class="btn-link text-muted pb-2" onclick="showTab('register')">Đăng ký</span>
+        </div>
+
+        <!-- Login Tab -->
+        <div class="tab-content active" id="login-tab">
+          <form class="tab__form">
+            <div class="input-container mb-3">
+              <div class="input-row row align-items-center">
+                <div class="col-3">
+                  <div class="form-label">Tài Khoản</div>
+                </div>
+                <div class="col-9">
+                  <input class="form-control" autocomplete="on" maxlength="32" placeholder="Vui lòng nhập số tài khoản" type="text"/>
+                </div>
+              </div>
+              <div class="input-row row align-items-center">
+                <div class="col-3">
+                  <div class="form-label">Mật Khẩu</div>
+                </div>
+                <div class="col-9 d-flex align-items-center">
+                  <input class="form-control" autocomplete="on" maxlength="32" placeholder="Vui lòng nhập mật khẩu" type="password" id="passwordInput"/>
+                  <div class="eye-btn" onclick="togglePasswordVisibility('passwordInput')">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5753 6.85456C17.7122 6.71896 17.8939 6.63806 18.0866 6.63806C18.7321 6.63806 19.0436 7.42626 18.5748 7.87006C18.1144 8.30554 17.457 8.69885 16.6478 9.03168L18.1457 10.5296C18.2101 10.5941 18.2613 10.6706 18.2962 10.7548C18.331 10.839 18.349 10.9293 18.349 11.0204C18.349 11.1116 18.331 11.2019 18.2962 11.2861C18.2613 11.3703 18.2101 11.4468 18.1457 11.5113C18.0812 11.5757 18.0047 11.6269 17.9205 11.6618C17.8363 11.6967 17.746 11.7146 17.6548 11.7146C17.5637 11.7146 17.4734 11.6967 17.3892 11.6618C17.305 11.6269 17.2284 11.5757 17.164 11.5113L15.3409 9.68819C15.2898 9.63708 15.247 9.57838 15.2141 9.51428C14.4874 9.71293 13.6876 9.87122 12.8344 9.98119C12.8363 9.99011 12.8381 9.99908 12.8397 10.0081L13.2874 12.5472C13.315 12.7266 13.2713 12.9098 13.1656 13.0573C13.0598 13.2049 12.9005 13.3052 12.7217 13.3367C12.5429 13.3683 12.3589 13.3285 12.2091 13.2259C12.0592 13.1234 11.9555 12.9663 11.9202 12.7882L11.4725 10.2491C11.4645 10.2039 11.4611 10.1581 11.4621 10.1125C10.9858 10.1428 10.4976 10.1586 10.0002 10.1586C9.57059 10.1586 9.14778 10.1468 8.73362 10.1241C8.73477 10.1656 8.7322 10.2074 8.72578 10.249L8.27808 12.7881C8.24612 12.9694 8.14345 13.1306 7.99265 13.2362C7.84186 13.3418 7.65528 13.3831 7.47398 13.3512C7.29268 13.3192 7.1315 13.2166 7.0259 13.0658C6.9203 12.915 6.87892 12.7284 6.91088 12.5471L7.35858 10.008C7.35877 10.007 7.35896 10.0061 7.35915 10.0052C6.50085 9.90284 5.6941 9.75191 4.95838 9.56025C4.93012 9.60634 4.89634 9.64933 4.85748 9.68819L3.03438 11.5113C2.96992 11.5757 2.8934 11.6269 2.80918 11.6618C2.72496 11.6967 2.63469 11.7146 2.54353 11.7146C2.45237 11.7146 2.36211 11.6967 2.27789 11.6618C2.19367 11.6269 2.11714 11.5757 2.05268 11.5113C1.98822 11.4468 1.93709 11.3703 1.90221 11.2861C1.86732 11.2019 1.84937 11.1116 1.84937 11.0204C1.84937 10.9293 1.86732 10.839 1.90221 10.7548C1.93709 10.6706 1.98822 10.5941 2.05268 10.5296L3.49373 9.08855C2.6197 8.744 1.91247 8.33062 1.42559 7.87006C0.956591 7.42636 1.26799 6.63816 1.91359 6.63816C2.10629 6.63816 2.28789 6.71896 2.42489 6.85456C2.70009 7.12696 3.19529 7.45886 3.98459 7.77796C5.54429 8.40856 7.73699 8.77016 10.0001 8.77016C12.2632 8.77016 14.4558 8.40856 16.0156 7.77796C16.8049 7.45886 17.3001 7.12696 17.5753 6.85456Z" fill="#9499A0"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="#" class="forgot-password" onmouseover="showForgetTip()" onmouseout="hideForgetTip()">Quên mật khẩu?</a>
+            <div class="forget-tip" id="forgetTip" style="display: none;">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAABLCAMAAADXsOyXAAAAY1BMVEUAAAAODg4LCwsGBgYMDAwHBwcFBQUDAwP9/f3+/v7t7e2lpaV9fX309PT09PTExMSysrL6+vrx8fHLy8v19fXj4+Pt7e27u7ujo6P+/v7n5+f09PSVlZX+/v76+vre3t7////QvYHdAAAAIHRSTlMABQcJCw0QE+HviTIiloY/L9N3KqZsaCwb0nulG/GjOfvtLI4AAARmSURBVGje7ZnrcuIwDIVrg5PANrTQG7Dd1u//lBvrajMtjCAx/OC0zUw60+Eb6ViS1Ye77rrrrrvuGk3uwTl4yvvNKcEhI6AiobtBVCCEB4veb4k0sZSQXlEB1N1MZHNI7/HhfRnZKweX3aigICdPxb1iXDWtOaUENX9D0qvSuiyewMSawTcqkcJjwLyaC1yeeCeYg+CBT0VGXad0SfY9k84AtZAXudy3FeUQUkGBikI5xx95ohvYtfUDW1gUEBEONFut5iT2gpcCVtmxZFPPohjOibWPsWfW9FsKulj2oRotfBKFNKUXw4mUIcw/v+Kg188QiLW0LZDWQ9 obliviouslyUYUuqZM8zD5y6Cdtv0VhgBSKuaQMtT6dGEFj66SOo+QpL4gA6Y4k4t7DveOSUFTAAlUmWdAyzw5i6oULOkR3k+94lhACU1QKqszxjX9KWurRlXIvUeQZMSZmiap0UstHhqmoZhQVxnK4RVZxO1KIAmvTOpsr41CRZIQ0DDsg0mZaWz6x0lHwSJB23iD9o0BDvHwNayAHJqfYLEMuky/qhlg8JjN7AK7YRjrCObpk+CjwzKWZKWrG0LqI2ULgCdDtWBpI1K6lFt28df1QMrwMrhwpFgGlYkdXTymZRBH1/jEf19bNkE6AGYC6aqrzLy4bBXgA6ku3hU68e2ZVpuXegCarGTTFI0QyWbMmj7p4sn1P0hVvAANa8p4urKaorJN5ASa1YKsj7Lq4IRi5Q0fayQBlJhpVIA0sblx7saOERN0pAqKTbT01o8ASvB5hMBWcCNSqqFn0Hbt5Ok2mThDzJWoB2zwOrVhJOfke6jQXuNqzQugwVspFillHQZTVoKK3VZnrdpqTDW1URtWpLaWUE4cGNcHWqUo6/Z15BCM7Wqz/zKrH5Gc9ZI2fdEyqjHmumJJlvCzpJ0C3fxhKLpV9J1PEtrYGXSIFUAddFtn1Ep++Fo4Tc2A7XrRQMBLUXl7OOd4xJSZdWzJSXrErsSqaafSRsiHYO1jKtDnbnsk4WUGvVoMzU0WUTluMqofY6KYUpjerSZGpqsHq0kXhZK37IPqNqk1Kj7OIL2yqqrF+cV1F6oeDGho/QyjqJlWQWSZPdmtGp5pJKphHRM1pB0MLg4GymjHhq1j6OpL5uWZ9RzDJA7FVHtzfT0TRYvWwSrM5bdqsVd6lQztTfZ0gIzx6yG/Bf3UzbqcxdHVvfMFpglqQfsKx9QACHpJKxSsOwd67BRzZV0AtYgBQthB0wjqp7/ADI0U2OTDaB8m3nOhkJu/UHWvOOzvtPBUtYHZ4lpQtU5pdnECbXh0qrDoIH1YEOxipNqxW61TlicfllQmEntrEBqX2E4UHb++zi5eihX1hVx0agG1O1XrKDXbTZeeWce/30i3cUqWm/zfdvAYPkXKuT/pYuV1L0AqaG1uqKt1iBVVg/5J1SLV6uRKmsWVuNC7ftfrKrFN8QVu4Bp+/NejVSbrOGfxc7J9m8Tr6ANt1ZL/lfxKlr92gH+A2phwRjU8Di5AAAAAElFTkSuQmCC" alt="" class="arrow">
+              <div class="forget-tip-line">
+                <p class="title">Gửi SMS để đăng nhập nhanh</p>
+                <p class="desc">Số điện thoại chưa đăng ký hoặc liên kết với Goyi sẽ được đăng ký tài khoản mới</p>
+              </div>
+              <div class="forget-tip-line">
+                <p class="title">Lấy lại mật khẩu</p>
+                <p class="desc">Đặt lại mật khẩu qua số điện thoại/email đã liên kết</p>
+              </div>
+            </div>
+            <div class="d-flex mb-3">
+              <button type="button" class="btn btn-outline-secondary w-50 me-2" onclick="showTab('register')">Đăng ký</button>
+              <button type="submit" class="btn btn-primary w-50">Đăng nhập</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Register Tab -->
+        <div class="tab-content" id="register-tab">
+          <form class="tab__form">
+            <div class="input-container mb-3">
+              <div class="input-row row align-items-center">
+                <div class="col-3">
+                  <div class="form-label">Tài Khoản</div>
+                </div>
+                <div class="col-9">
+                  <input class="form-control" autocomplete="on" maxlength="32" placeholder="Vui lòng nhập số tài khoản" type="text"/>
+                </div>
+              </div>
+              <div class="input-row row align-items-center">
+                <div class="col-3">
+                  <div class="form-label">Mật Khẩu</div>
+                </div>
+                <div class="col-9 d-flex align-items-center">
+                  <input class="form-control" autocomplete="on" maxlength="32" placeholder="Vui lòng nhập mật khẩu" type="password" id="registerPasswordInput"/>
+                  <div class="eye-btn" onclick="togglePasswordVisibility('registerPasswordInput')">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5753 6.85456C17.7122 6.71896 17.8939 6.63806 18.0866 6.63806C18.7321 6.63806 19.0436 7.42626 18.5748 7.87006C18.1144 8.30554 17.457 8.69885 16.6478 9.03168L18.1457 10.5296C18.2101 10.5941 18.2613 10.6706 18.2962 10.7548C18.331 10.839 18.349 10.9293 18.349 11.0204C18.349 11.1116 18.331 11.2019 18.2962 11.2861C18.2613 11.3703 18.2101 11.4468 18.1457 11.5113C18.0812 11.5757 18.0047 11.6269 17.9205 11.6618C17.8363 11.6967 17.746 11.7146 17.6548 11.7146C17.5637 11.7146 17.4734 11.6967 17.3892 11.6618C17.305 11.6269 17.2284 11.5757 17.164 11.5113L15.3409 9.68819C15.2898 9.63708 15.247 9.57838 15.2141 9.51428C14.4874 9.71293 13.6876 9.87122 12.8344 9.98119C12.8363 9.99011 12.8381 9.99908 12.8397 10.0081L13.2874 12.5472C13.315 12.7266 13.2713 12.9098 13.1656 13.0573C13.0598 13.2049 12.9005 13.3052 12.7217 13.3367C12.5429 13.3683 12.3589 13.3285 12.2091 13.2259C12.0592 13.1234 11.9555 12.9663 11.9202 12.7882L11.4725 10.2491C11.4645 10.2039 11.4611 10.1581 11.4621 10.1125C10.9858 10.1428 10.4976 10.1586 10.0002 10.1586C9.57059 10.1586 9.14778 10.1468 8.73362 10.1241C8.73477 10.1656 8.7322 10.2074 8.72578 10.249L8.27808 12.7881C8.24612 12.9694 8.14345 13.1306 7.99265 13.2362C7.84186 13.3418 7.65528 13.3831 7.47398 13.3512C7.29268 13.3192 7.1315 13.2166 7.0259 13.0658C6.9203 12.915 6.87892 12.7284 6.91088 12.5471L7.35858 10.008C7.35877 10.007 7.35896 10.0061 7.35915 10.0052C6.50085 9.90284 5.6941 9.75191 4.95838 9.56025C4.93012 9.60634 4.89634 9.64933 4.85748 9.68819L3.03438 11.5113C2.96992 11.5757 2.8934 11.6269 2.80918 11.6618C2.72496 11.6967 2.63469 11.7146 2.54353 11.7146C2.45237 11.7146 2.36211 11.6967 2.27789 11.6618C2.19367 11.6269 2.11714 11.5757 2.05268 11.5113C1.98822 11.4468 1.93709 11.3703 1.90221 11.2861C1.86732 11.2019 1.84937 11.1116 1.84937 11.0204C1.84937 10.9293 1.86732 10.839 1.90221 10.7548C1.93709 10.6706 1.98822 10.5941 2.05268 10.5296L3.49373 9.08855C2.6197 8.744 1.91247 8.33062 1.42559 7.87006C0.956591 7.42636 1.26799 6.63816 1.91359 6.63816C2.10629 6.63816 2.28789 6.71896 2.42489 6.85456C2.70009 7.12696 3.19529 7.45886 3.98459 7.77796C5.54429 8.40856 7.73699 8.77016 10.0001 8.77016C12.2632 8.77016 14.4558 8.40856 16.0156 7.77796C16.8049 7.45886 17.3001 7.12696 17.5753 6.85456Z" fill="#9499A0"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="otp-row row g-2 align-items-center">
+                <div class="col-3">
+                  <input class="form-control" placeholder="Nhập mã OTP" type="text" maxlength="6"/>
+                </div>
+                <div class="col-3">
+                  <button type="button" class="btn-otp w-50">Gửi OTP</button>
+                </div>
+                <div class="col-2 " >
+                  <button type="submit" class="btn btn-primary w-50">Đăng ký</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Row container with 70% and 30% columns at the bottom -->
+        <div class="row-container">
+          <div class="col-40">
+            <!-- Nội dung 70% - Để trống để bạn xử lý sau -->
+            <div class="d-flex justify-content-center gap-2 mb-2">
+              <button class="social-login-btn text-success">
+                <i class="fab fa-weixin"></i>
+              </button>
+              <button class="social-login-btn text-danger">
+                <i class="fab fa-weibo"></i>
+              </button>
+              <button class="social-login-btn text-primary">
+                <i class="fab fa-qq"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-60">
+            <!-- Nội dung 30% - Để trống để bạn xử lý sau -->
+            <p class="text-muted text-center text-sm">
+              Nếu số điện thoại di động của bạn chưa được đăng ký với goyi, chúng tôi sẽ tự động đăng ký một tài khoản cho bạn
+              Bằng cách đăng nhập hoặc hoàn tất đăng ký, bạn đồng ý
+              <a class="text-primary text-decoration-none" href="#">Thỏa thuận người dùng</a>
+              Và
+              <a class="text-primary text-decoration-none" href="#">Chính sách bảo mật</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom JavaScript -->
+<script>
+  // Sidebar toggle
+  const menuToggle = document.getElementById("menuToggle");
+  const sidebar = document.getElementById("sidebar");
+  const mainContent = document.getElementById("mainContent");
+
+  menuToggle.addEventListener("click", function () {
+    sidebar.classList.toggle("hidden");
+    mainContent.classList.toggle("hidden");
+  });
+
+  // Modal functionality
+  const loginBtn = document.getElementById("loginBtn");
+  const loginModal = document.getElementById("loginModal");
+  const closeModal = document.getElementById("closeModal");
+
+  loginBtn.addEventListener("click", function () {
+    loginModal.classList.add("show");
+  });
+
+  closeModal.addEventListener("click", function () {
+    loginModal.classList.remove("show");
+  });
+
+  loginModal.addEventListener("click", function (e) {
+    if (e.target === loginModal) {
+      loginModal.classList.remove("show");
+    }
+  });
+
+  // Toggle password visibility
+  function togglePasswordVisibility(inputId) {
+    const passwordInput = document.getElementById(inputId);
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+  }
+
+  // Show/hide forget password tooltip
+  function showForgetTip() {
+    document.getElementById("forgetTip").style.display = "block";
+  }
+
+  function hideForgetTip() {
+    document.getElementById("forgetTip").style.display = "none";
+  }
+
+  // Tab switching
+  function showTab(tabName) {
+    const loginTab = document.getElementById("login-tab");
+    const registerTab = document.getElementById("register-tab");
+    const loginLink = document.querySelector(".login-tabs .btn-link:first-child");
+    const registerLink = document.querySelector(".login-tabs .btn-link:last-child");
+
+    if (tabName === "login") {
+      loginTab.classList.add("active");
+      registerTab.classList.remove("active");
+      loginLink.classList.add("active", "text-primary", "border-bottom", "border-2", "border-primary");
+      loginLink.classList.remove("text-muted");
+      registerLink.classList.remove("active", "text-primary", "border-bottom", "border-2", "border-primary");
+      registerLink.classList.add("text-muted");
+    } else {
+      loginTab.classList.remove("active");
+      registerTab.classList.add("active");
+      loginLink.classList.remove("active", "text-primary", "border-bottom", "border-2", "border-primary");
+      loginLink.classList.add("text-muted");
+      registerLink.classList.add("active", "text-primary", "border-bottom", "border-2", "border-primary");
+      registerLink.classList.remove("text-muted");
+    }
+  }
+</script>
 </body>
 </html>

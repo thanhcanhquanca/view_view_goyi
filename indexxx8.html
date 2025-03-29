@@ -22,13 +22,14 @@
         }
 
         #phoneInput {
-            font-size: 1rem !important;
-            margin-left: 0.625rem !important;
+            font-size: 16px !important;
+            margin-left: 10px !important;
         }
 
+        /* Tùy chỉnh z-index của dropdown mã vùng */
         .iti__country-list {
             z-index: 1202 !important;
-            max-height: 12.5rem;
+            max-height: 200px;
             overflow-y: auto;
         }
 
@@ -36,7 +37,7 @@
         .top-bar {
             background-color: #FFFFFF;
             border-bottom: 1px solid #E0E0E0;
-            height: 3.5rem;
+            height: 56px;
             position: fixed;
             top: 0;
             left: 0;
@@ -44,15 +45,15 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            padding: 0 1rem;
+            padding: 0 16px;
         }
 
         /* Sidebar */
         .sidebar {
-            width: 15rem;
+            width: 240px;
             background-color: #FFFFFF;
             position: fixed;
-            top: 3.5rem;
+            top: 56px;
             left: 0;
             bottom: 0;
             z-index: 999;
@@ -61,16 +62,16 @@
         }
 
         .sidebar.hidden {
-            left: -15rem;
+            left: -240px;
         }
 
         .sidebar .nav-link {
             color: #030303;
-            padding: 0.625rem 1.5rem;
+            padding: 10px 24px;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            font-size: 0.875rem;
+            gap: 16px;
+            font-size: 14px;
         }
 
         .sidebar .nav-link:hover {
@@ -78,38 +79,36 @@
         }
 
         .sidebar .nav-link i {
-            width: 1.5rem;
+            width: 24px;
             text-align: center;
         }
 
         /* Nội dung chính */
         .main-content {
-            margin-top: 3.5rem;
-            margin-left: 15rem;
-            padding: 1rem;
+            margin-top: 56px;
+            margin-left: 240px;
+            padding: 16px;
             transition: margin-left 0.3s ease;
-            width: calc(100% - 15rem);
         }
 
         .main-content.hidden {
             margin-left: 0;
-            width: 100%;
         }
 
         /* Thanh tìm kiếm */
         .search-bar {
-            max-width: 37.5rem;
+            max-width: 600px;
             width: 100%;
             display: flex;
             align-items: center;
             border: 1px solid #CCCCCC;
-            border-radius: 1.25rem;
+            border-radius: 20px;
             background: #FFFFFF;
         }
 
         .search-bar .form-control {
             border: none;
-            border-radius: 1.25rem 0 0 1.25rem;
+            border-radius: 20px 0 0 20px;
             padding-right: 0;
             flex: 1;
         }
@@ -123,12 +122,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 3.75rem;
-            height: 2.375rem;
+            width: 60px;
+            height: 38px;
             color: #606060;
             cursor: pointer;
             background-color: #F0F0F0;
-            border-radius: 0 1.25rem 1.25rem 0;
+            border-radius: 0 20px 20px 0;
             transition: background-color 0.3s ease;
         }
 
@@ -138,10 +137,10 @@
 
         /* Nút trên top bar */
         .top-bar .btn {
-            border-radius: 1.25rem;
-            font-size: 0.875rem;
+            border-radius: 20px;
+            font-size: 14px;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 8px 16px;
             cursor: pointer;
         }
 
@@ -157,15 +156,15 @@
         /* Placeholder video */
         .video-placeholder {
             background-color: #E0E0E0;
-            height: 8.4375rem;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
+            height: 135px;
+            border-radius: 8px;
+            margin-bottom: 8px;
         }
 
         .video-info-placeholder {
-            height: 2.5rem;
+            height: 40px;
             background-color: #E0E0E0;
-            border-radius: 0.25rem;
+            border-radius: 4px;
         }
 
         /* Modal tùy chỉnh */
@@ -188,24 +187,21 @@
 
         .modal-content {
             background-color: #FFFFFF;
-            border-radius: 0.75rem;
-            padding: 0.125rem;
-            width: 90%;
-            max-width: 51.25rem;
-            height: auto;
-            max-height: 90vh;
+            border-radius: 12px;
+            padding: 2px;
+            width: 820px;
+            height: 440px;
             position: relative;
-            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
-            overflow-y: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .modal-close {
             position: absolute;
-            top: 0.625rem;
-            right: 0.625rem;
+            top: 10px;
+            right: 10px;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 24px;
             cursor: pointer;
             color: #606060;
         }
@@ -213,17 +209,18 @@
         .login-section {
             display: flex;
             flex-wrap: nowrap;
-            padding: 1.875rem 2.5rem;
+            padding: 30px 40px;
             height: 100%;
             align-items: flex-start;
             width: 100%;
         }
 
+        /* Phần QR Code */
         .qr-section {
             flex: 0 0 36%;
-            min-width: 12.5rem;
+            min-width: 200px;
             border-right: 1px solid #E0E0E0;
-            padding: 0 1.25rem;
+            padding: 0 20px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -231,21 +228,22 @@
             align-items: center;
         }
 
+        /* Phần Form đăng nhập/đăng ký */
         .form-section {
             flex: 0 0 64%;
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding: 0 2.5rem;
+            padding: 0 40px;
         }
 
         .qr-section h2 {
             margin-top: 0;
-            height: 2.25rem;
-            line-height: 2.25rem;
+            height: 36px;
+            line-height: 36px;
             display: flex;
             align-items: center;
-            font-size: 1rem !important;
+            font-size: 16px !important;
             font-weight: 600 !important;
         }
 
@@ -253,32 +251,36 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            height: 6.25rem;
+            height: 100px;
             margin-top: auto;
         }
 
-        .form-section .col-40, .form-section .col-60 {
+        .form-section .col-40 {
+            width: 100%;
+        }
+
+        .form-section .col-60 {
             width: 100%;
         }
 
         .form-section .login-tabs {
-            height: 2.25rem;
+            height: 36px;
             align-items: center;
             margin-top: 0;
         }
 
         .form-section .input-container {
             border: 1px solid #CCCCCC;
-            border-radius: 0.25rem;
+            border-radius: 4px;
             overflow: hidden;
         }
 
         .form-section .input-row {
             margin-bottom: 0;
-            padding: 0.5rem 0.75rem;
+            padding: 8px 12px;
             display: flex;
             align-items: stretch;
-            min-height: 2.5rem;
+            min-height: 40px;
         }
 
         .form-section .input-row:not(:last-child) {
@@ -293,7 +295,7 @@
         }
 
         .form-section .form-label {
-            font-size: 1rem;
+            font-size: 16px;
             color: #030303;
             display: flex;
             align-items: center;
@@ -305,8 +307,8 @@
 
         .form-section .form-control {
             border: none;
-            padding-right: 1.25rem;
-            font-size: 1rem !important;
+            padding-right: 20px;
+            font-size: 16px !important;
             background: transparent;
             height: 100%;
             width: 100%;
@@ -321,15 +323,15 @@
         .form-section .eye-btn {
             cursor: pointer;
             color: #00a1d6;
-            margin-left: 0.25rem;
-            margin-right: 0.625rem;
+            margin-left: 4px;
+            margin-right: 10px;
         }
 
         .form-section .forgot-password {
             display: block;
             text-align: right;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
+            margin-bottom: 16px;
+            font-size: 14px;
             position: relative;
             color: #00a1d6;
             text-decoration: none;
@@ -345,27 +347,25 @@
             right: 0;
             background-color: #FFFFFF;
             border: 1px solid #E0E0E0;
-            border-radius: 0.25rem;
-            box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             z-index: 10;
-            width: 15.625rem;
-            padding: 0.625rem;
+            width: 250px;
+            padding: 10px;
         }
 
         .form-section .forget-tip .arrow {
             position: absolute;
-            top: -0.625rem;
-            right: 0.625rem;
-            width: 1.25rem;
-            height: 0.625rem;
+            top: -10px;
+            right: 10px;
+            width: 20px;
+            height: 10px;
         }
-
         .text-black {
             color: #000 !important;
         }
-
         .form-section .forget-tip-line {
-            padding: 0.3125rem 0;
+            padding: 5px 0;
             cursor: pointer;
         }
 
@@ -374,13 +374,13 @@
         }
 
         .form-section .forget-tip-line .title {
-            font-size: 0.875rem;
+            font-size: 14px;
             color: #030303;
             margin: 0;
         }
 
         .form-section .forget-tip-line .desc {
-            font-size: 0.75rem;
+            font-size: 12px;
             color: #606060;
             margin: 0;
         }
@@ -388,9 +388,9 @@
         .form-section .btn-primary {
             background-color: #065FD4;
             border: none;
-            border-radius: 1.25rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem !important;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 16px !important;
             width: 100%;
         }
 
@@ -402,9 +402,9 @@
             border: 1px solid #B0E0E6;
             color: #065FD4;
             background-color: #E6F0FA;
-            border-radius: 1.25rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem !important;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 16px !important;
         }
 
         .form-section .btn-outline-secondary:hover {
@@ -412,20 +412,20 @@
         }
 
         .social-login-btn {
-            font-size: 1.5rem;
+            font-size: 24px;
             border: none;
             background: none;
             cursor: pointer;
         }
 
         .text-sm {
-            font-size: 0.875rem !important;
+            font-size: 14px !important;
         }
 
         .login-tabs .btn-link {
             text-decoration: none;
             cursor: pointer;
-            font-size: 1.125rem !important;
+            font-size: 18px !important;
             font-weight: 300 !important;
         }
 
@@ -439,9 +439,10 @@
         }
 
         .login-tabs .btn-link + .btn-link {
-            margin-left: 2.5rem;
+            margin-left: 40px;
         }
 
+        /* Ẩn/hiện tab content */
         .tab-content {
             display: none;
         }
@@ -450,80 +451,137 @@
             display: block;
         }
 
+        /* Phần QR code */
         .qr-section p,
         .qr-section button {
-            font-size: 0.875rem !important;
+            font-size: 14px !important;
         }
 
+        /* Thêm lớp để bỏ in đậm */
         .normal-weight {
             font-weight: normal !important;
         }
 
-        /* Media Queries cho responsive */
-        @media (max-width: 768px) {
+        /* Responsive Design */
+        @media (max-width: 991px) {
             .sidebar {
-                width: 10rem;
+                width: 200px;
             }
             .sidebar.hidden {
-                left: -10rem;
+                left: -200px;
             }
             .main-content {
-                margin-left: 10rem;
-                width: calc(100% - 10rem);
+                margin-left: 200px;
             }
             .main-content.hidden {
                 margin-left: 0;
-                width: 100%;
             }
             .search-bar {
-                max-width: 100%;
+                max-width: 400px;
+            }
+            .modal-content {
+                width: 90%;
+                height: auto;
+                max-height: 90vh;
+                overflow-y: auto;
             }
             .login-section {
-                flex-direction: column;
-                padding: 1rem;
+                flex-wrap: wrap;
+                padding: 20px;
             }
             .qr-section {
                 flex: 0 0 100%;
                 border-right: none;
                 border-bottom: 1px solid #E0E0E0;
-                padding-bottom: 1rem;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
             }
             .form-section {
                 flex: 0 0 100%;
-                padding: 1rem 0 0 0;
+                padding: 0 20px;
             }
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 767px) {
+            .top-bar {
+                padding: 0 8px;
+            }
             .sidebar {
                 width: 100%;
-                left: -100%;
+
             }
             .sidebar.hidden {
                 left: -100%;
             }
             .main-content {
                 margin-left: 0;
-                width: 100%;
+                padding: 8px;
             }
+            .search-bar {
+                max-width: 100%;
+                margin: 0 8px;
+            }
+            .top-bar .btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 10px;
+            }
+            .login-section {
+                padding: 15px;
+            }
+            .form-section .login-tabs .btn-link {
+                font-size: 16px !important;
+            }
+            .form-section .btn-primary,
+            .form-section .btn-outline-secondary {
+                font-size: 14px !important;
+            }
+            .video-placeholder {
+                height: 100px;
+            }
+            .video-info-placeholder {
+                height: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
             .top-bar {
                 flex-wrap: wrap;
                 height: auto;
-                padding: 0.5rem;
+                padding: 8px;
             }
             .search-bar {
-                order: 1;
-                width: 100%;
-                margin-top: 0.5rem;
+                order: 2;
+                margin-top: 8px;
             }
-            .top-bar .ms-auto {
-                margin-left: 0;
+            .ms-auto {
+                margin-left: 8px !important;
             }
-            .video-placeholder {
-                height: 6rem;
+            .form-section .input-row .col-3 {
+                flex: 0 0 30%;
+                max-width: 30%;
             }
-            .video-info-placeholder {
-                height: 1.5rem;
+            .form-section .input-row .col-9 {
+                flex: 0 0 70%;
+                max-width: 70%;
+            }
+            .form-section .form-label {
+                font-size: 14px;
+            }
+            .form-section .form-control {
+                font-size: 14px !important;
+            }
+            .form-section .forgot-password {
+                font-size: 12px;
+            }
+            .form-section .forget-tip {
+                width: 200px;
+            }
+            .row-container {
+                height: auto;
             }
         }
     </style>
@@ -535,7 +593,7 @@
         <i class="fas fa-bars"></i>
     </button>
     <div class="me-3">
-        <img src="https://via.placeholder.com/90x40" alt="Logo" style="height: 2.5rem;">
+        <img src="https://via.placeholder.com/90x40" alt="Logo" style="height: 40px;">
     </div>
     <div class="search-bar mx-auto">
         <input type="text" class="form-control" placeholder="Tìm kiếm">
@@ -558,31 +616,58 @@
 <div class="sidebar" id="sidebar">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-home"></i> Trang chủ </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-home"></i>
+                Trang chủ
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-video"></i> Shorts </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-video"></i>
+                Shorts
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-list"></i> Kênh đăng ký </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-list"></i>
+                Kênh đăng ký
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-heart"></i> Yêu thích </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-heart"></i>
+                Yêu thích
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-thumbs-up"></i> Đã thích </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-thumbs-up"></i>
+                Đã thích
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-clock"></i> Xem sau </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-clock"></i>
+                Xem sau
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-film"></i> Phim </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-film"></i>
+                Phim
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-paint-brush"></i> Hoạt hình </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-paint-brush"></i>
+                Hoạt hình
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"> <i class="fas fa-music"></i> Âm nhạc </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-music"></i>
+                Âm nhạc
+            </a>
         </li>
     </ul>
 </div>
